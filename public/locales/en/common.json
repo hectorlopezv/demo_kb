@@ -1,0 +1,16 @@
+{
+  "columnName": "Column Name",
+  "modelName": "Model Name",
+  "type": "Type Of Data",
+  "decorators": "Decorators",
+  "add_row": "Add Row",
+  "add_schema": "Add Schema",
+  "visualize_result": "Visualize Result",
+  "download": "Download File",
+  "change_locale": "Change Locale",
+  "reset": "Reset",
+  "number": "number",
+  "string": "string",
+  "boolean": "boolean",
+  "select": "Select ..."
+}

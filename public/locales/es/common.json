@@ -1,0 +1,15 @@
+{
+  "columnName": "Nombre Columna",
+  "modelName": "Nombre Modelo",
+  "type": "Tipo de Dato",
+  "decorators": "Decoradores",
+  "add_row": "Agregar Fila",
+  "add_schema": "Agregar Esquema",
+  "visualize_result": "Visualizar Resultado",
+  "download": "Descargar Archivo",
+  "change_locale": "Cambiar Idioma",
+  "reset": "Reiniciar",
+  "string": "cadena",
+  "boolean": "booleano",
+  "select": "Seleccione ..."
+}
