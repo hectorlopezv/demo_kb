@@ -3,11 +3,15 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+COPY  ./next.config.js ./
+COPY  ./next-i18next.config.js ./
 RUN  npm install --production
 
 FROM node:18-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps  /app/next.config.js ./next.config.js 
+COPY --from=deps  /app/next-i18next.config.js ./next-i18next.config.js
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
@@ -26,6 +30,8 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/next-i18next.config.js ./next-i18next.config.js
 
 USER nextjs
 
