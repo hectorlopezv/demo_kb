@@ -6,9 +6,10 @@ import {
 } from "@tanstack/react-table";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { AiOutlineDownload, AiOutlinePlusCircle } from "react-icons/ai";
 import Select from "react-select";
 export default function Index(props: any) {
@@ -127,180 +128,196 @@ export default function Index(props: any) {
   };
 
   return (
-    <div className="flex gap-5 flex-col items-center justify-center p-4">
-      <div className="flex items-center gap-2 flex-wrap">
-        <div className="p-1 flex flex-col gap-1">
-          <div className="text-center">{t("modelName")}</div>
-          <input
-            aria-label="Model Name"
-            className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            type="text"
-            onChange={(e) => setModelName(e.target.value)}
-            value={modelName}
-          />
-        </div>
-        <div className="pl-2 pt-6">
-          <Link href="/" locale={changeTo}>
-            <button>{t("change_locale")}</button>
-          </Link>
-        </div>
-      </div>
-      <div className="flex items-center justify-center flex-wrap">
-        <div className="flex gap-2 items-center justify-center">
+    <>
+      <Head>
+        <title>My page title</title>
+      </Head>
+      <div className="flex gap-5 flex-col items-center justify-center p-4">
+        <div className="flex items-center gap-2 flex-wrap">
           <div className="p-1 flex flex-col gap-1">
-            <div className="text-center">{t("columnName")}</div>
+            <label htmlFor="modelName" className="text-center">
+              {t("modelName")}
+            </label>
             <input
-              aria-label="Column Name"
-              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              type="text"
-              onChange={(e) => setcolumname(e.target.value)}
-              value={columname}
-            />
-          </div>
-          <div className="p-1 flex flex-col gap-1">
-            <div className="text-center">{t("type")}</div>
-            <Select
-              options={options}
-              placeholder={t("select")}
-              onChange={(e) =>
-                setcolumtype(e?.value as "number" | "string" | "boolean")
-              }
-              styles={{
-                container: (base) => ({
-                  ...base,
-                  width: "200px",
-                  height: "42px",
-                  minWidth: "100%",
-                }),
-                control: (base) => ({
-                  ...base,
-                  width: "200px",
-                  height: "42px",
-                  minWidth: "100%",
-                }),
-              }}
-            />
-          </div>
-          <div className="p-1 flex flex-col gap-1">
-            <p className="text-center">{t("decorators")}</p>
-            <input
-              aria-label="Decorators"
+              aria-label="Model Name"
               className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               type="text"
-              onChange={(e) => setDecorators(e.target.value)}
-              value={decorators}
+              onChange={(e) => setModelName(e.target.value)}
+              value={modelName}
+              id="modelName"
             />
           </div>
+          <div className="pl-2 pt-6">
+            <Link href="/" locale={changeTo}>
+              <button>{t("change_locale")}</button>
+            </Link>
+          </div>
         </div>
-        <div className="pt-6 pl-3">
-          <button
-            onClick={() => {
-              setData([
-                ...data,
-                {
-                  columnname: columname,
-                  type: columtype,
-                  decorators: decorators,
-                },
-              ]);
-              setcolumname("");
-              setcolumtype("number");
-              setDecorators("");
-            }}
-          >
-            <div
-              className="flex flex-col items-center justify-center"
-              onClick={addRowHandler}
-            >
-              <p>{t("add_row")}</p>
-              <AiOutlinePlusCircle size={24} />
+        <div className="flex items-center justify-center flex-wrap">
+          <div className="flex gap-2 items-center justify-center">
+            <div className="p-1 flex flex-col gap-1">
+              <label htmlFor="columnName" className="text-center">
+                {t("columnName")}
+              </label>
+              <input
+                aria-label="Column Name"
+                className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                type="text"
+                onChange={(e) => setcolumname(e.target.value)}
+                value={columname}
+                id="columnName"
+              />
             </div>
-          </button>
+            <div className="p-1 flex flex-col gap-1">
+              <div className="text-center">{t("type")}</div>
+              <Select
+                instanceId={useId()}
+                aria-label="select types"
+                options={options}
+                placeholder={t("select")}
+                onChange={(e) =>
+                  setcolumtype(e?.value as "number" | "string" | "boolean")
+                }
+                styles={{
+                  container: (base) => ({
+                    ...base,
+                    width: "200px",
+                    height: "42px",
+                    minWidth: "100%",
+                  }),
+                  control: (base) => ({
+                    ...base,
+                    width: "200px",
+                    height: "42px",
+                    minWidth: "100%",
+                  }),
+                }}
+              />
+            </div>
+            <div className="p-1 flex flex-col gap-1">
+              <label htmlFor="decorators" className="text-center">
+                {t("decorators")}
+              </label>
+              <input
+                aria-label="Decorators"
+                className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                type="text"
+                onChange={(e) => setDecorators(e.target.value)}
+                value={decorators}
+                id="decorators"
+              />
+            </div>
+          </div>
+          <div className="pt-6 pl-3">
+            <button
+              onClick={() => {
+                setData([
+                  ...data,
+                  {
+                    columnname: columname,
+                    type: columtype,
+                    decorators: decorators,
+                  },
+                ]);
+                setcolumname("");
+                setcolumtype("number");
+                setDecorators("");
+              }}
+            >
+              <div
+                className="flex flex-col items-center justify-center"
+                onClick={addRowHandler}
+              >
+                <p>{t("add_row")}</p>
+                <AiOutlinePlusCircle size={24} />
+              </div>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className="flex items-center justify-center mt-5">
-        {data.length > 0 ? (
-          <table>
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="flex items-center justify-center mt-5">
+          {data.length > 0 ? (
+            <table>
+              <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.map((row) => (
+                  <tr key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : null}
+        </div>
+        <div className="flex gap-8 items-center justify-center">
+          <div>
+            <button onClick={() => setclean(true)}>
+              <div className="flex flex-col items-center justify-center">
+                <p>{t("reset")}</p>
+                <AiOutlinePlusCircle size={24} />
+              </div>
+            </button>
+          </div>
+          <div>
+            <button onClick={addSchemaHandler}>
+              <div className="flex flex-col items-center justify-center">
+                <p>{t("add_schema")}</p>
+                <AiOutlinePlusCircle size={24} />
+              </div>
+            </button>
+          </div>
+
+          <div>
+            <button onClick={visualizeSchemaHandler}>
+              <div className="flex flex-col items-center justify-center">
+                <p>{t("visualize_result")}</p>
+                <AiOutlinePlusCircle size={24} />
+              </div>
+            </button>
+          </div>
+
+          <div>
+            <button onClick={fileHandler}>
+              <div className="flex flex-col items-center justify-center">
+                <p>{t("download")}</p>
+                <AiOutlineDownload size={24} />
+              </div>
+            </button>
+          </div>
+        </div>
+        {visualizeResult && result.length > 0 ? (
+          <div>
+            <span>{JSON.stringify(result)}</span>
+          </div>
         ) : null}
       </div>
-      <div className="flex gap-8 items-center justify-center">
-        <div>
-          <button onClick={() => setclean(true)}>
-            <div className="flex flex-col items-center justify-center">
-              <p>{t("reset")}</p>
-              <AiOutlinePlusCircle size={24} />
-            </div>
-          </button>
-        </div>
-        <div>
-          <button onClick={addSchemaHandler}>
-            <div className="flex flex-col items-center justify-center">
-              <p>{t("add_schema")}</p>
-              <AiOutlinePlusCircle size={24} />
-            </div>
-          </button>
-        </div>
-
-        <div>
-          <button onClick={visualizeSchemaHandler}>
-            <div className="flex flex-col items-center justify-center">
-              <p>{t("visualize_result")}</p>
-              <AiOutlinePlusCircle size={24} />
-            </div>
-          </button>
-        </div>
-
-        <div>
-          <button onClick={fileHandler}>
-            <div className="flex flex-col items-center justify-center">
-              <p>{t("download")}</p>
-              <AiOutlineDownload size={24} />
-            </div>
-          </button>
-        </div>
-      </div>
-      {visualizeResult && result.length > 0 ? (
-        <div>
-          <span>{JSON.stringify(result)}</span>
-        </div>
-      ) : null}
-    </div>
+    </>
   );
 }
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export async function getStaticProps({ locale = "en" }: { locale: string }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),

@@ -1,3 +1,5 @@
-If You want to test prod project locally use
+If You want to test prod project locally use and build it
 COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build
+
+for dev only
 docker-compose up

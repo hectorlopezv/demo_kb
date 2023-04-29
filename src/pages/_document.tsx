@@ -1,13 +1,25 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
     <Html lang="en">
-      <Head />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="A simple project starter to work with TypeScript, React, NextJS, and Tailwind CSS."
+        />
+        <meta
+          name="keywords"
+          content="TypeScript, React, NextJS, Tailwind CSS"
+        />
+        <meta name="author" content="Hector Lopez" />
+        <meta name="robots" content="index, follow" />
+      </Head>
       <body>
         <Main />
         <NextScript />
       </body>
     </Html>
-  )
+  );
 }
