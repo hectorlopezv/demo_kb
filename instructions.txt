@@ -3,3 +3,6 @@ COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build
 
 for dev only
 docker-compose up
+
+zip project
+zip -r kb_aws.zip . -x "node_modules/*" -x ".next/*" -x ".git/*" -x "Dockerfile" -x "docker-compose.yml"
