@@ -7,7 +7,7 @@ export default function Document() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="A simple project starter to work with TypeScript, React, NextJS, and Tailwind CSS."
+          content="demo for koombea technical test"
         />
         <meta
           name="keywords"
