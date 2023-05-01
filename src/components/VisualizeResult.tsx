@@ -1,7 +1,10 @@
-import useTable from "@/hooks/useTable";
-
-const VisualizeResult = () => {
-  const { result, visualizeResult } = useTable();
+const VisualizeResult = ({
+  result,
+  visualizeResult,
+}: {
+  result: string;
+  visualizeResult: boolean;
+}) => {
   return (
     <>
       {visualizeResult && result.length > 0 ? (

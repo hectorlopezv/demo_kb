@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useTranslation } from "next-i18next";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const useTable = () => {
   const { t } = useTranslation("common");
@@ -31,7 +31,8 @@ const useTable = () => {
   ];
   const [data, setData] = useState(() => [...defaultData]);
   const [result, setresult] = useState(``);
-  const [visualizeResult, setVisualizeResult] = useState(false);
+  const [visualizeResult, setVisualizeResult] = useState(true);
+  const [schemas, setSetSchemas] = useState<string[]>([]);
   const table = useReactTable({
     data,
     columns,
@@ -47,6 +48,8 @@ const useTable = () => {
     setresult,
     visualizeResult,
     setVisualizeResult,
+    schemas,
+    setSetSchemas,
   };
 };
 export default useTable;

@@ -1,11 +1,13 @@
-import useTable from "@/hooks/useTable";
-import { flexRender } from "@tanstack/react-table";
+import { SchemaType } from "@/utils";
+import { Table, flexRender } from "@tanstack/react-table";
 
-const TableSchema = () => {
-  const {
-    data,
-    table,
-  } = useTable();
+const TableSchema = ({
+  data,
+  table,
+}: {
+  data: SchemaType[];
+  table: Table<SchemaType>;
+}) => {
   return (
     <div className="flex items-center justify-center mt-5">
       {data.length > 0 ? (

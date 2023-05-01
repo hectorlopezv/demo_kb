@@ -1,20 +1,26 @@
-import useFillInfo from "@/hooks/useFillInfo";
 import { useTranslation } from "next-i18next";
 import { useId } from "react";
 import Select from "react-select";
-const SchemaBuilder = () => {
+const SchemaBuilder = ({
+  columname,
+  decorators,
+  setcolumname,
+  setDecorators,
+  setcolumtype,
+  modelName,
+  options,
+  setModelName,
+}: {
+  columname: string;
+  decorators: string;
+  setcolumname: (value: string) => void;
+  setDecorators: (value: string) => void;
+  setcolumtype: (value: "number" | "string" | "boolean") => void;
+  modelName: string;
+  options: { value: string; label: string }[];
+  setModelName: (value: string) => void;
+}) => {
   const { t } = useTranslation("common");
-  const {
-    columname,
-    decorators,
-    setcolumname,
-    setDecorators,
-    setcolumtype,
-    modelName,
-    options,
-    setModelName,
-  } = useFillInfo();
-
   return (
     <>
       <div className="flex gap-2 flex-wrap w-full items-center justify-center">
@@ -60,12 +66,10 @@ const SchemaBuilder = () => {
               styles={{
                 container: (base) => ({
                   ...base,
-
                   height: "42px",
                 }),
                 control: (base) => ({
                   ...base,
-
                   height: "42px",
                 }),
               }}

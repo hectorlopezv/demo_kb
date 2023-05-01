@@ -6,11 +6,22 @@ import VisualizeResult from "@/components/VisualizeResult";
 import useFillInfo from "@/hooks/useFillInfo";
 import useTable from "@/hooks/useTable";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
 export default function Index(props: any) {
-  const { data, result, setData, setVisualizeResult, setresult } = useTable();
   const {
-    setclean,
+    data,
+    result,
+    setData,
+    setVisualizeResult,
+    setresult,
+    schemas,
+    setSetSchemas,
+    table,
+    visualizeResult,
+  } = useTable();
+  const {
+    setReset,
     columname,
     columtype,
     decorators,
@@ -19,11 +30,27 @@ export default function Index(props: any) {
     setcolumtype,
     modelName,
     setModelName,
-    setSetSchemas,
-    schemas,
-    clean,
+    reset,
+    cleanFillInfo,
+    options,
   } = useFillInfo();
-  const addRowHandler = useCallback(() => {
+
+  const addRowHandler = () => {
+    if (columname === "") {
+      toast.error("Column name is required");
+      return;
+    }
+    if (decorators === "") {
+      toast.error("Decorators is required");
+      return;
+    }
+
+    //check for duplicate
+    if (data.find((row) => row.columnname === columname)) {
+      toast.error("Column name already exists");
+      return;
+    }
+
     setData((data) => [
       ...data,
       {
@@ -32,34 +59,34 @@ export default function Index(props: any) {
         decorators: decorators,
       },
     ]);
-    setcolumname("");
-    setcolumtype("number");
-    setDecorators("");
-  }, [
-    columname,
-    columtype,
-    decorators,
-    setData,
-    setDecorators,
-    setcolumname,
-    setcolumtype,
-  ]);
-  const addSchemaHandler = useCallback(() => {
-    let schema = `model ${modelName.slice(0, 1).toUpperCase()}${modelName.slice(
-      1
-    )}{ `;
+    cleanFillInfo();
+  };
+  const addSchemaHandler = () => {
+    const modelSchemaName = `${modelName
+      .slice(0, 1)
+      .toUpperCase()}${modelName.slice(1)}`;
+    if (modelName === "") {
+      toast.error("Model name is required");
+      return;
+    }
+    if (schemas.find((schema) => schema.includes(modelSchemaName))) {
+      toast.error("Model Name already exists");
+      return;
+    }
+    let schema = `model ${modelSchemaName} { `;
     data.map((row) => {
-      schema += `${row.columnname} ${row.type} ${row.decorators}\n `;
+      schema += `${row.columnname} ${row.type} ${row.decorators} \n `;
     });
     schema += `}`;
     setSetSchemas([...schemas, schema]);
     setData([]);
-  }, [data, modelName, schemas, setData, setSetSchemas]);
+    cleanFillInfo();
+  };
   const visualizeSchemaHandler = () => {
     setVisualizeResult((predicate) => !predicate);
   };
 
-  const fileHandler = useCallback(() => {
+  const fileHandler = () => {
     if (result.length > 0) {
       const fileData = JSON.stringify(result);
       const data = new Blob([fileData], { type: "text/plain" });
@@ -69,49 +96,60 @@ export default function Index(props: any) {
       link.click();
       URL.revokeObjectURL(link.href);
     }
-  }, [result]);
+  };
   useEffect(() => {
-    if (clean) {
-      setcolumname("");
-      setcolumtype("number");
-      setModelName("");
-      setDecorators("");
+    if (reset) {
+      cleanFillInfo();
+      setReset(false);
       setSetSchemas([]);
-      setclean(false);
       setresult("");
     }
   }, [
-    clean,
+    reset,
     setDecorators,
     setModelName,
     setSetSchemas,
-    setclean,
+    setReset,
     setcolumname,
     setcolumtype,
     setresult,
+    cleanFillInfo,
   ]);
   useEffect(() => {
     let result = ``;
     schemas.map((schema) => {
       result += `${schema} `;
     });
+
     setresult(result);
   }, [schemas, setresult]);
   return (
-    <div className="text-sm md:text-base lg:text-lg">
-      <ChangeLocale />
-      <div className="flex gap-5 flex-col items-center justify-center p-4">
-        <SchemaBuilder />
-        <TableSchema />
-        <Actions
-          addSchemaHandler={addSchemaHandler}
-          addRowHandler={addRowHandler}
-          visualizeSchemaHandler={visualizeSchemaHandler}
-          fileHandler={fileHandler}
-        />
-        <VisualizeResult />
+    <>
+      <div className="text-sm md:text-base lg:text-lg">
+        <ChangeLocale />
+        <div className="flex gap-5 flex-col items-center justify-center p-4">
+          <SchemaBuilder
+            columname={columname}
+            decorators={decorators}
+            setcolumname={setcolumname}
+            setDecorators={setDecorators}
+            setcolumtype={setcolumtype}
+            modelName={modelName}
+            options={options}
+            setModelName={setModelName}
+          />
+          <TableSchema data={data} table={table} />
+          <Actions
+            addSchemaHandler={addSchemaHandler}
+            addRowHandler={addRowHandler}
+            visualizeSchemaHandler={visualizeSchemaHandler}
+            fileHandler={fileHandler}
+          />
+          <VisualizeResult result={result} visualizeResult={visualizeResult} />
+        </div>
       </div>
-    </div>
+      <ToastContainer />
+    </>
   );
 }
 

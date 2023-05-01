@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
 import { useTranslation } from "next-i18next";
+import { useMemo, useState } from "react";
 const useFillInfo = () => {
   const { t } = useTranslation("common");
   const [columname, setcolumname] = useState("");
@@ -8,8 +8,8 @@ const useFillInfo = () => {
   );
   const [modelName, setModelName] = useState("");
   const [decorators, setDecorators] = useState("");
-  const [schemas, setSetSchemas] = useState<string[]>([]);
-  const [clean, setclean] = useState(false);
+
+  const [reset, setReset] = useState(false);
   const options = useMemo(() => {
     return [
       { value: "number", label: t("number") ?? "" },
@@ -17,6 +17,12 @@ const useFillInfo = () => {
       { value: "boolean", label: t("boolean") ?? "" },
     ];
   }, [t]);
+  const cleanFillInfo = () => {
+    setModelName("");
+    setcolumname("");
+    setcolumtype("number");
+    setDecorators("");
+  };
   return {
     columname,
     setcolumname,
@@ -26,11 +32,10 @@ const useFillInfo = () => {
     setModelName,
     decorators,
     setDecorators,
-    schemas,
-    setSetSchemas,
-    clean,
+    reset,
     options,
-    setclean,
+    cleanFillInfo,
+    setReset,
   };
 };
 export default useFillInfo;

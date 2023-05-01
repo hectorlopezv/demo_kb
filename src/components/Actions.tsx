@@ -17,19 +17,19 @@ const Actions: FC<ActionI> = ({
 }) => {
   const { t } = useTranslation("common");
   const {
-    setclean,
     columname,
     columtype,
     decorators,
     setcolumname,
     setDecorators,
     setcolumtype,
+    setReset,
   } = useFillInfo();
   const { data, setData } = useTable();
   return (
     <div className="flex gap-8 items-center justify-center flex-wrap">
       <div>
-        <button onClick={() => setclean(true)}>
+        <button onClick={() => setReset(true)}>
           <div className="flex flex-col items-center justify-center">
             <p className="min-w-max">{t("reset")}</p>
             <AiOutlinePlusCircle size={24} />
