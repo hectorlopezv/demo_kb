@@ -128,13 +128,22 @@ export default function Index(props: any) {
   };
 
   return (
-    <>
+    <div className="text-sm md:text-base lg:text-lg">
       <Head>
         <title>My page title</title>
       </Head>
+      <div className="pl-2 pt-6">
+        <Link
+          href="/"
+          locale={changeTo}
+          className="border px-1 py-2 rounded border-black"
+        >
+          <button>{t("change_locale")}</button>
+        </Link>
+      </div>
       <div className="flex gap-5 flex-col items-center justify-center p-4">
-        <div className="flex items-center gap-2 flex-wrap">
-          <div className="p-1 flex flex-col gap-1">
+        <div className="flex gap-2 flex-wrap w-full items-center justify-center">
+          <div className="p-1 flex flex-col gap-1 w-full md:w-2/5 lg:w-3/5">
             <label htmlFor="modelName" className="text-center">
               {t("modelName")}
             </label>
@@ -147,15 +156,10 @@ export default function Index(props: any) {
               id="modelName"
             />
           </div>
-          <div className="pl-2 pt-6">
-            <Link href="/" locale={changeTo}>
-              <button>{t("change_locale")}</button>
-            </Link>
-          </div>
         </div>
-        <div className="flex items-center justify-center flex-wrap">
-          <div className="flex gap-2 items-center justify-center">
-            <div className="p-1 flex flex-col gap-1">
+        <div className="flex items-center flex-wrap w-full tems-center justify-center">
+          <div className="flex gap-2 items-center justify-center flex-wrap w-full md:w-2/5 lg:w-3/5">
+            <div className="p-1 flex flex-col gap-1 w-full">
               <label htmlFor="columnName" className="text-center">
                 {t("columnName")}
               </label>
@@ -168,7 +172,7 @@ export default function Index(props: any) {
                 id="columnName"
               />
             </div>
-            <div className="p-1 flex flex-col gap-1">
+            <div className="p-1 flex flex-col gap-1 w-full">
               <div className="text-center">{t("type")}</div>
               <Select
                 instanceId={useId()}
@@ -181,20 +185,18 @@ export default function Index(props: any) {
                 styles={{
                   container: (base) => ({
                     ...base,
-                    width: "200px",
+
                     height: "42px",
-                    minWidth: "100%",
                   }),
                   control: (base) => ({
                     ...base,
-                    width: "200px",
+
                     height: "42px",
-                    minWidth: "100%",
                   }),
                 }}
               />
             </div>
-            <div className="p-1 flex flex-col gap-1">
+            <div className="p-1 flex flex-col gap-1 w-full">
               <label htmlFor="decorators" className="text-center">
                 {t("decorators")}
               </label>
@@ -207,31 +209,6 @@ export default function Index(props: any) {
                 id="decorators"
               />
             </div>
-          </div>
-          <div className="pt-6 pl-3">
-            <button
-              onClick={() => {
-                setData([
-                  ...data,
-                  {
-                    columnname: columname,
-                    type: columtype,
-                    decorators: decorators,
-                  },
-                ]);
-                setcolumname("");
-                setcolumtype("number");
-                setDecorators("");
-              }}
-            >
-              <div
-                className="flex flex-col items-center justify-center"
-                onClick={addRowHandler}
-              >
-                <p>{t("add_row")}</p>
-                <AiOutlinePlusCircle size={24} />
-              </div>
-            </button>
           </div>
         </div>
 
@@ -271,11 +248,11 @@ export default function Index(props: any) {
             </table>
           ) : null}
         </div>
-        <div className="flex gap-8 items-center justify-center">
+        <div className="flex gap-8 items-center justify-center flex-wrap">
           <div>
             <button onClick={() => setclean(true)}>
               <div className="flex flex-col items-center justify-center">
-                <p>{t("reset")}</p>
+                <p className="min-w-max">{t("reset")}</p>
                 <AiOutlinePlusCircle size={24} />
               </div>
             </button>
@@ -283,7 +260,32 @@ export default function Index(props: any) {
           <div>
             <button onClick={addSchemaHandler}>
               <div className="flex flex-col items-center justify-center">
-                <p>{t("add_schema")}</p>
+                <p className="min-w-max">{t("add_schema")}</p>
+                <AiOutlinePlusCircle size={24} />
+              </div>
+            </button>
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                setData([
+                  ...data,
+                  {
+                    columnname: columname,
+                    type: columtype,
+                    decorators: decorators,
+                  },
+                ]);
+                setcolumname("");
+                setcolumtype("number");
+                setDecorators("");
+              }}
+            >
+              <div
+                className="flex flex-col items-center justify-center"
+                onClick={addRowHandler}
+              >
+                <p>{t("add_row")}</p>
                 <AiOutlinePlusCircle size={24} />
               </div>
             </button>
@@ -292,7 +294,7 @@ export default function Index(props: any) {
           <div>
             <button onClick={visualizeSchemaHandler}>
               <div className="flex flex-col items-center justify-center">
-                <p>{t("visualize_result")}</p>
+                <p className="min-w-max">{t("visualize_result")}</p>
                 <AiOutlinePlusCircle size={24} />
               </div>
             </button>
@@ -301,7 +303,7 @@ export default function Index(props: any) {
           <div>
             <button onClick={fileHandler}>
               <div className="flex flex-col items-center justify-center">
-                <p>{t("download")}</p>
+                <p className="min-w-max">{t("download")}</p>
                 <AiOutlineDownload size={24} />
               </div>
             </button>
@@ -313,7 +315,7 @@ export default function Index(props: any) {
           </div>
         ) : null}
       </div>
-    </>
+    </div>
   );
 }
 
