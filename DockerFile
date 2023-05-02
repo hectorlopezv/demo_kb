@@ -1,5 +1,4 @@
-FROM --platform=linux/amd64 node:18-alpine AS deps
-RUN apk add --no-cache libc6-compat
+FROM --platform=linux/amd64 node:18 AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -7,7 +6,7 @@ COPY  ./next.config.js ./
 COPY  ./next-i18next.config.js ./
 RUN  npm install --production
 
-FROM node:18-alpine AS builder
+FROM --platform=linux/amd64 node AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps  /app/next.config.js ./next.config.js 
@@ -18,7 +17,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN npm run build
 
-FROM node:18-alpine AS runner
+FROM --platform=linux/amd64 node AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
@@ -36,7 +35,5 @@ COPY --from=builder /app/next-i18next.config.js ./next-i18next.config.js
 USER nextjs
 
 EXPOSE 3000
-
-ENV PORT 3000
 
 CMD ["npm", "start"]

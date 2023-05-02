@@ -6,3 +6,15 @@ docker-compose up
 
 zip project
 zip -r kb_aws.zip . -x "node_modules/*" -x ".next/*" -x ".git/*" -x "Dockerfile" -x "docker-compose.yml"
+
+connect local kubectl
+aws eks --region {region} update-kubeconfig --name EKS-Demo-Cluster
+
+//managing and creating eks clusters aws
+eksctl
+https://eksctl.io
+
+
+//clean docker cache, images, etc
+docker system prune -a
+
