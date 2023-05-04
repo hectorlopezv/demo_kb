@@ -2,6 +2,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### app domain
+https://pmnsswedfg.us-east-1.awsapprunner.com/es
+
 First, run the development server:
 
 ```bash
